@@ -4,7 +4,6 @@
  */
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,9 +34,7 @@ public class Login extends HttpServlet {
         Database db = new Database();
 
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            
-            
+        try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             
             String user = request.getParameter("user"); 
@@ -47,13 +44,11 @@ public class Login extends HttpServlet {
             
             if(valido)
             {
-                out.println("<h3>Usuario identificado!</h3>");
-              
+                response.sendRedirect("http://localhost:8080/Practica2AD/Menu.jsp");
             }
-            else out.println("<h3>Contraseña incorrecta</h3>");
-            
+            else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
         }
-        catch (Exception e) {
+        catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         } finally {
                 db.Shutdown(); 
