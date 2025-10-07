@@ -44,7 +44,7 @@ public class Login extends HttpServlet {
             
             if(valido)
             {
-                response.sendRedirect("http://localhost:8080/Practica2AD/Menu.jsp");
+                response.sendRedirect("http://localhost:8080/Practica2AD/menu.jsp");
             }
             else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
         }
