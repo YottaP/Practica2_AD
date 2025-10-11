@@ -42,6 +42,7 @@ public class registrarImagen extends HttpServlet {
         String filename = request.getParameter("filename");
         String storageDate = LocalDate.now().toString(); // fecha de regitro al sistema
         
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

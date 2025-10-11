@@ -14,6 +14,7 @@
         <h1> </h1><br>
             <form action = "registrarImagen" method = "POST">
             <!-- Añadir los campos del formulario que creas conveniente -->
+            
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title" required><br><br>
 
