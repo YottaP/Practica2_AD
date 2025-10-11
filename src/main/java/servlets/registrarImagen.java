@@ -6,18 +6,26 @@ package servlets;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import static java.lang.System.out;
 import java.time.LocalDate;
 
 /**
  *
  * @author alumne
  */
-@WebServlet(name = "registarImagen", urlPatterns = {"/registarImagen"})
+@WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
+@MultipartConfig
 public class registrarImagen extends HttpServlet {
+    
+    private static final String IMAGE_DIR = "/var/webapp/uploads";
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,6 +38,7 @@ public class registrarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
         
         // Recoger los parámetros 
@@ -41,6 +50,21 @@ public class registrarImagen extends HttpServlet {
         String captureDate = request.getParameter("capture_date");
         String filename = request.getParameter("filename");
         String storageDate = LocalDate.now().toString(); // fecha de regitro al sistema
+        
+        String file_path = IMAGE_DIR + '/' + filename;
+        File uploadImage = new File(IMAGE_DIR); 
+        out.println("<h1>file_path<h1>");
+        if(!uploadImage.exists()) // Crear directorio por si no existe
+        {
+            uploadImage.mkdirs();
+        }
+        out.println("<h1>file_path<h1>");
+        // Guardar imagen
+        //Part filePart = request.getPart("imagen");
+        //filePart.write(file_path);
+        
+        
+        
         
         
     }

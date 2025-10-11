@@ -11,8 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1> </h1><br>
-            <form action = "registrarImagen" method = "POST">
+            <form action = "registrarImagen" method = "POST" enctype = "multipart/form-data">
             <!-- Añadir los campos del formulario que creas conveniente -->
             
             <label for="title">Título:</label><br>

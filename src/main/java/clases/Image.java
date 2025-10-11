@@ -10,24 +10,46 @@ package clases;
  */
 public class Image {
     
+        private final int ID; // PK de tabla, se asigna auto
         private String title;
         private String description;
         private String keywords;
         private String author;
-        private String creator;
+        private final String creator; // Usuario que inserta la foto
         private String captureDate;
         private String filename;
         private String storageDate; 
         
-        public Image(String title, String description, String keywords, String author,
+        public Image(int ID, String title, String description, String keywords, String author,
                 String creator, String captureDate, String filename, String storageDate)
         {
+            this.ID = ID;
             this.title = title;
             this.description = description;
             this.keywords = keywords;
             this.author = author;
             this.creator = creator;
             this.captureDate = captureDate;
+            this.filename = filename;
+            this.storageDate = storageDate;
         }
-    
+        
+        public int getID(){ return ID;}   
+        public String getTitle(){ return title;}   
+        public String getDescription(){ return description;}   
+        public String getKeywords(){ return keywords;}    
+        public String getAuthor(){ return author;}    
+        public String getCreator(){ return creator;}  
+        public String getCaptureDate(){ return captureDate;}
+        public String getFilename(){ return filename;}
+        public String getStorageDate(){ return storageDate;}
+
+        
+        public void setTitle(String title){ this.title=title;}   
+        public void setDescription(String description){this.description=description;}   
+        public void setKeywords(String keywords){ this.keywords=keywords;}    
+        public void setAuthor(String author){ this.author=author;}    
+        public void setCaptureDate(String captureDate){ this.captureDate=captureDate;}  
+        public void setFilename(String filename){ this.filename=filename;}
+        public void setStorageDate(String storageDate){ this.storageDate=storageDate;}
 }
