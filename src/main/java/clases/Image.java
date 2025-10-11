@@ -10,7 +10,7 @@ package clases;
  */
 public class Image {
     
-        private final int ID; // PK de tabla, se asigna auto
+        // private final int ID; 
         private String title;
         private String description;
         private String keywords;
@@ -20,10 +20,10 @@ public class Image {
         private String filename;
         private String storageDate; 
         
-        public Image(int ID, String title, String description, String keywords, String author,
+        public Image(String title, String description, String keywords, String author,
                 String creator, String captureDate, String filename, String storageDate)
         {
-            this.ID = ID;
+            // this.ID = ID;
             this.title = title;
             this.description = description;
             this.keywords = keywords;
@@ -34,7 +34,7 @@ public class Image {
             this.storageDate = storageDate;
         }
         
-        public int getID(){ return ID;}   
+        // public int getID(){ return ID;}   
         public String getTitle(){ return title;}   
         public String getDescription(){ return description;}   
         public String getKeywords(){ return keywords;}    

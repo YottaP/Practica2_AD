@@ -52,6 +52,7 @@ public class Login extends HttpServlet {
         }
         catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
+            response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
         } finally {
                 db.Shutdown(); 
             }

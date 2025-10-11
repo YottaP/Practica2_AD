@@ -4,12 +4,14 @@
  */
 package db;
 
-import static java.lang.System.out;
+import clases.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -80,6 +82,35 @@ public final class Database {
             System.err.println(e.getMessage()); 
         }
         return b;
+    }
+    
+    public boolean insertaImagen(Image i)
+    {
+        boolean done = true;
+        String query = "INSERT INTO image (title, description, keywords, author, creator, capture_date, storage_date, filename) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            
+            statement.setString(1, i.getTitle());
+            statement.setString(2, i.getDescription());
+            statement.setString(3, i.getKeywords());
+            statement.setString(4, i.getAuthor());
+            statement.setString(5, i.getCreator());
+            statement.setString(6, i.getCaptureDate());
+            statement.setString(7, i.getStorageDate());
+            statement.setString(8, i.getFilename()); 
+            
+            int rows = statement.executeUpdate();
+            if (rows <= 0) {
+                done = false; 
+            }
+        } catch (SQLException ex) {
+            done = false;
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return done;
     }
       
 }
