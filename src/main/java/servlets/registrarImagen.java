@@ -44,27 +44,32 @@ public class registrarImagen extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         
+        // Implem HttpSession
+        String creator = (String) request.getSession().getAttribute("usuario");
+        if(creator == null)
+            response.sendRedirect("Login.jsp");
+        
         // Recoger los parámetros 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         String keywords = request.getParameter("keywords");
         String author = request.getParameter("author");
-        String creator = request.getParameter("creator");
         String captureDate = request.getParameter("capture_date");
         String storageDate = LocalDate.now().toString(); // fecha de regitro al sistema
         
         Part part=request.getPart("imagen");
-        String fileName= IMAGE_DIR + File.separator + extractFileName(part);
-        Image i = new Image(title, description, keywords, author,
-                creator, captureDate, fileName, storageDate);
+        String NombreArchivo = extractFileName(part);
+        String fileName= IMAGE_DIR + File.separator + NombreArchivo;
         
+        Image i = new Image(title, description, keywords, author,
+                creator, captureDate, storageDate, NombreArchivo);
         File uploadImage = new File(IMAGE_DIR); 
         if(!uploadImage.exists()) // Crear directorio por si no existe
         {
             uploadImage.mkdirs();
         }
 
-        try(InputStream input = part.getInputStream())
+        try(InputStream input = part.getInputStream()) // Copiar imagen en directorio
         {
             Files.copy(input, new File(fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
         }

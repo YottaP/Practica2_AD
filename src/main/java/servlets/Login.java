@@ -32,9 +32,17 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-              
-        Database db = new Database();
+                      
+        // Creació sessió
+        String usuario = (String) request.getSession().getAttribute("usuario");
+        if(usuario == null)
+        {
+            request.getSession().setAttribute("usuario", request.getParameter("user"));
+            request.getSession().setMaxInactiveInterval(240);
+        }
 
+        Database db = new Database();
+        
         response.setContentType("text/html;charset=UTF-8");
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");

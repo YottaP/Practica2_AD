@@ -21,7 +21,7 @@ public class Image {
         private String storageDate; 
         
         public Image(String title, String description, String keywords, String author,
-                String creator, String captureDate, String filename, String storageDate)
+                String creator, String captureDate, String storageDate, String filename)
         {
             // this.ID = ID;
             this.title = title;

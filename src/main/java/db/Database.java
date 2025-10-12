@@ -86,7 +86,7 @@ public final class Database {
     
     public boolean insertaImagen(Image i)
     {
-        boolean done = true;
+        boolean done = false;
         String query = "INSERT INTO image (title, description, keywords, author, creator, capture_date, storage_date, filename) " +
                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
           
@@ -103,11 +103,10 @@ public final class Database {
             statement.setString(8, i.getFilename()); 
             
             int rows = statement.executeUpdate();
-            if (rows <= 0) {
-                done = false; 
+            if (rows > 0) {
+                done = true; 
             }
         } catch (SQLException ex) {
-            done = false;
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return done;
