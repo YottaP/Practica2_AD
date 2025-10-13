@@ -18,7 +18,7 @@
         <% if(Referer != null && Referer.equals("http://localhost:8080/Practica2AD/")) {%>
             <p><a href = "http://localhost:8080/Practica2AD/">Login</a></p>
         <% }else { %>
-            <p><a href = "http://localhost:8080/Practica2AD/menu.jsp">Login</a></p>
+            <p><a href = "http://localhost:8080/Practica2AD/menu.jsp">Menu</a></p>
         <% } %>
     </body>
 </html>

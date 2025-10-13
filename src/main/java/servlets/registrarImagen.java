@@ -81,8 +81,9 @@ public class registrarImagen extends HttpServlet {
         
         Database db = new Database();
         boolean done = db.insertaImagen(i);
+        db.Shutdown(); // Finalizar conexión
         if(!done) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
-
+            
         // Hacemos la query ya que hemos podido enviar la foto
         
         response.getWriter().println("<h1>Que quieres hacer?</h1><br>");

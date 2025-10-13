@@ -12,14 +12,19 @@
         <title>Menú</title>
     </head>
     <body>
+        <% 
+        String usuario = (String) session.getAttribute("usuario");
+        if(usuario == null)
+            response.sendRedirect("Login.jsp");
+        %>
         <h1>Menú de Gestión de Imágenes</h1>
         
         <ul>
             <li><a href="buscar.jsp">Buscar Imágenes</a></li>
             <li><a href="listar.jsp">Listar Todas las Imágenes</a></li>
-            <li><a href="registrar.jsp">Registrar Nueva Imagen</a></li>
-            <li><a href="modificar.jsp">Modificar Imagen</a></li>
-            <li><a href="eliminar.jsp">Eliminar Imagen</a></li>
+            <li><a href="registrarImagen.jsp">Registrar Nueva Imagen</a></li>
+            <li><a href="modificarImagen.jsp">Modificar Imagen</a></li>
+            <li><a href="eliminarImagen.jsp">Eliminar Imagen</a></li>
         </ul>
         
         <hr>

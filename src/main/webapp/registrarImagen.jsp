@@ -11,8 +11,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-            <form action = "registrarImagen" method = "POST" enctype = "multipart/form-data">
-            <!-- Añadir los campos del formulario que creas conveniente -->
+        
+        <% 
+        String usuario = (String) session.getAttribute("usuario");
+        if(usuario == null)
+            response.sendRedirect("Login.jsp");
+        %>
+        
+        <form action = "registrarImagen" method = "POST" enctype = "multipart/form-data">
+        <!-- Añadir los campos del formulario que creas conveniente -->
             
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title" required><br><br>
@@ -31,6 +38,6 @@
             
             <input type="file" id ="imagen" name="imagen"><br>
             <input type="submit" value="Submit">
-         </form>
+        </form>
     </body>
 </html>

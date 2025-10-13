@@ -43,11 +43,6 @@ public final class Database {
         return c;
     }
     
-    public Connection torna()
-    {
-        return connection;
-    }
-    
     // Metodo para acabar conexion a la base de datos
     public void Shutdown()
     {
@@ -110,6 +105,12 @@ public final class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return done;
+    }
+    
+    public boolean modificaImagen(String creator, String fileName)
+    {
+        boolean modificado = false;
+        return modificado;
     }
       
 }
