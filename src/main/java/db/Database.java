@@ -137,23 +137,21 @@ public List<Image> buscarImagenes(String title, String description, String keywo
         
         // Construir la consulta SQL dinámicamente según los parámetros
         StringBuilder sql = new StringBuilder("SELECT * FROM IMAGE WHERE 1=1");
-        System.out.println(sql);
-        System.out.println("hi");
         // Añadir condiciones solo si los parámetros no son nulos ni vacíos
         if(title != null && !title.trim().isEmpty()) {
-            sql.append(" AND UPPER(TITULO) LIKE UPPER(?)");
+            sql.append(" AND UPPER(TITLE) LIKE UPPER(?)");
         }
         if(description != null && !description.trim().isEmpty()) {
-            sql.append(" AND UPPER(DESCRIPCION) LIKE UPPER(?)");
+            sql.append(" AND UPPER(DESCRIPTION) LIKE UPPER(?)");
         }
         if(keywords != null && !keywords.trim().isEmpty()) {
             sql.append(" AND UPPER(KEYWORDS) LIKE UPPER(?)");
         }
         if(author != null && !author.trim().isEmpty()) {
-            sql.append(" AND UPPER(AUTOR) LIKE UPPER(?)");
+            sql.append(" AND UPPER(AUTHOR) LIKE UPPER(?)");
         }
         if(creator != null && !creator.trim().isEmpty()) {
-            sql.append(" AND UPPER(CREADOR) LIKE UPPER(?)");
+            sql.append(" AND UPPER(CREATOR) LIKE UPPER(?)");
         }
         
         // Ordenar los resultados por fecha de almacenamiento (más recientes primero)
