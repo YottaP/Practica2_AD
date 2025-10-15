@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -113,4 +115,102 @@ public final class Database {
         return modificado;
     }
       
+
+/**
+ * Busca imágenes en la base de datos según los criterios especificados.Si todos los parámetros son null o vacíos, devuelve todas las imágenes.
+ * 
+ * @param title Título de la imagen (búsqueda parcial)
+ * @param description Descripción de la imagen (búsqueda parcial)
+ * @param keywords Palabras clave (búsqueda parcial)
+ * @param author Autor de la imagen (búsqueda parcial)
+ * @param creator Creador/usuario que subió la imagen (búsqueda parcial)
+ * @return Lista de objetos Image que coinciden con los criterios
+ */
+public List<Image> buscarImagenes(String title, String description, String keywords, 
+                                   String author, String creator, String captureDateFrom, 
+                                   String captureDateTo, String storageDateFrom, String storageDateTo) {
+    List<Image> resultados = new ArrayList<>();
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    
+    try {
+        
+        // Construir la consulta SQL dinámicamente según los parámetros
+        StringBuilder sql = new StringBuilder("SELECT * FROM IMAGE WHERE 1=1");
+        System.out.println(sql);
+        System.out.println("hi");
+        // Añadir condiciones solo si los parámetros no son nulos ni vacíos
+        if(title != null && !title.trim().isEmpty()) {
+            sql.append(" AND UPPER(TITULO) LIKE UPPER(?)");
+        }
+        if(description != null && !description.trim().isEmpty()) {
+            sql.append(" AND UPPER(DESCRIPCION) LIKE UPPER(?)");
+        }
+        if(keywords != null && !keywords.trim().isEmpty()) {
+            sql.append(" AND UPPER(KEYWORDS) LIKE UPPER(?)");
+        }
+        if(author != null && !author.trim().isEmpty()) {
+            sql.append(" AND UPPER(AUTOR) LIKE UPPER(?)");
+        }
+        if(creator != null && !creator.trim().isEmpty()) {
+            sql.append(" AND UPPER(CREADOR) LIKE UPPER(?)");
+        }
+        
+        // Ordenar los resultados por fecha de almacenamiento (más recientes primero)
+        //sql.append(" ORDER BY FECHA_ALMACENAMIENTO DESC");
+        
+        ps = connection.prepareStatement(sql.toString());
+        
+        // Asignar los parámetros a la consulta preparada
+        int paramIndex = 1;
+        if(title != null && !title.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + title.trim() + "%");
+        }
+        if(description != null && !description.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + description.trim() + "%");
+        }
+        if(keywords != null && !keywords.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + keywords.trim() + "%");
+        }
+        if(author != null && !author.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + author.trim() + "%");
+        }
+        if(creator != null && !creator.trim().isEmpty()) {
+            ps.setString(paramIndex++, "%" + creator.trim() + "%");
+        }
+        
+        // Ejecutar la consulta
+        rs = ps.executeQuery();
+        
+        // Procesar los resultados
+        while(rs.next()) {
+            Image img = new Image(
+                rs.getString("TITLE"),
+                rs.getString("DESCRIPTION"),
+                rs.getString("KEYWORDS"),
+                rs.getString("AUTHOR"),
+                rs.getString("CREATOR"),
+                rs.getString("CAPTURE_DATE"),
+                rs.getString("STORAGE_DATE"),
+                rs.getString("FILENAME")
+            );
+            resultados.add(img);
+        }
+        
+        System.out.println("Búsqueda completada: " + resultados.size() + " imagen(es) encontrada(s)");
+        
+    } catch(SQLException e) {
+        System.err.println("Error en búsqueda de imágenes: " + e.getMessage());
+    } finally {
+        // Cerrar recursos en orden inverso
+        try {
+            if(rs != null) rs.close();
+            if(ps != null) ps.close();
+        } catch(SQLException e) {
+            System.err.println("Error al cerrar recursos: " + e.getMessage());
+        }
+    }
+    
+    return resultados;
+    }
 }

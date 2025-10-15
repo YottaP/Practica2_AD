@@ -10,7 +10,7 @@ package clases;
  */
 public class Image {
     
-        // private final int ID; 
+        //private final int ID; 
         private String title;
         private String description;
         private String keywords;

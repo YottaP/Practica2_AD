@@ -20,7 +20,7 @@
         <h1>Menú de Gestión de Imágenes</h1>
         
         <ul>
-            <li><a href="buscar.jsp">Buscar Imágenes</a></li>
+            <li><a href="buscarImagen.jsp">Buscar Imágenes</a></li>
             <li><a href="listar.jsp">Listar Todas las Imágenes</a></li>
             <li><a href="registrarImagen.jsp">Registrar Nueva Imagen</a></li>
             <li><a href="modificarImagen.jsp">Modificar Imagen</a></li>
@@ -29,6 +29,6 @@
         
         <hr>
         
-        <p><a href="index.html">Cerrar Sesión</a></p>
+        <p><a href="Login.jsp">Cerrar Sesión</a></p>
     </body>
 </html>
