@@ -109,10 +109,39 @@ public final class Database {
         return done;
     }
     
-    public boolean modificaImagen(String creator, String fileName)
+    public boolean modificaImagen(Image imagen)
     {
-        boolean modificado = false;
-        return modificado;
+    String sql = "UPDATE imagen" +
+            "SET " +
+                "title = ?," +
+                "description = ?," +
+                "keywords = ?," +
+                "author = ?," + 
+                "creator = ?," +
+                "capture_date = ?," +
+                "storage_date = ?," +
+                "filename = ?" +
+            " WHERE id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, imagen.getTitle());
+            ps.setString(2, imagen.getDescription());
+            ps.setString(3, imagen.getKeywords());
+            ps.setString(4, imagen.getAuthor());
+            ps.setString(5, imagen.getCreator());
+            ps.setString(6, imagen.getCaptureDate());
+            ps.setString(7, imagen.getStorageDate());
+            ps.setString(8, imagen.getFilename());
+            ps.setInt(9, imagen.getID());
+
+            int rows = ps.executeUpdate();
+            return rows > 0; // true si se actualizó al menos una fila
+
+        } catch (SQLException e) {
+            return false;
+        }
     }
       
 

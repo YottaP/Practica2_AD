@@ -4,6 +4,7 @@
  */
 package servlets;
 
+import clases.Image;
 import db.Database;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -38,10 +39,27 @@ public class modificarImagen extends HttpServlet {
         if(creator == null)
             response.sendRedirect("Login.jsp");
         
-        String fileName = (String) request.getSession().getAttribute("filename");
+        int id = 0;
+        //int id = Integer.parseInt(request.getParameter("id"));
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        String keywords = request.getParameter("keywords");
+        String author = request.getParameter("author");
+        String captureDate = request.getParameter("capture_date");
+        //String filename = request.getParameter("filename");
+        String filename= "Hola";
+        // String storageDate = request.getParameter("storageDate");
+        String storageDate = "adios";
+        
+        // 2️⃣ Crear objeto Imagen con todos los datos
+        Image imagen = new Image(title, description, keywords, author, creator, captureDate, filename, storageDate);
+        imagen.setID(id);
+        
         Database db = new Database();
-        boolean modifica = db.modificaImagen(creator,fileName);
+        boolean modifica = db.modificaImagen(imagen);
         db.Shutdown();
+        
+        if(!modifica) response.sendRedirect("error.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
