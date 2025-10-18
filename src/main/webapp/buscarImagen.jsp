@@ -14,7 +14,7 @@
     // Verificar si hay sesión activa
     String usuario = (String) session.getAttribute("usuario");
     if(usuario == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("Login.jsp");
         return;
     }
 %>

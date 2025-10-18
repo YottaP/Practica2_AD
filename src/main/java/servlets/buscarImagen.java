@@ -36,7 +36,7 @@ public class buscarImagen extends HttpServlet {
         // Verificar sesión
         HttpSession session = request.getSession(false);
         if(session == null || session.getAttribute("usuario") == null) {
-            response.sendRedirect("http://localhost:8080/Practica2AD/login.jsp");
+            response.sendRedirect("http://localhost:8080/Practica2AD/Login.jsp");
             return;
         }
         
@@ -110,7 +110,7 @@ public class buscarImagen extends HttpServlet {
                     out.println("<td>");
                     if(img.getCreator() != null && img.getCreator().equals(usuarioActual)) {
                         //out.println("<a href='http://localhost:8080/Practica2AD/modificarImagen.jsp?id=" + 
-                        //           img.getID() + "'>Modificar</a> | ");
+                        //           img.get() + "'>Modificar</a> | ");
                         //out.println("<a href='http://localhost:8080/Practica2AD/eliminarImagen.jsp?id=" + 
                         //           img.getID() + "'>Eliminar</a>");
                     } else {

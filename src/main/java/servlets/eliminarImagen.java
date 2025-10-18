@@ -6,18 +6,24 @@ package servlets;
 
 import db.Database;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
 
 /**
  *
  * @author alumne
  */
-@WebServlet(name = "modificarImagen", urlPatterns = {"/modificarImagen"})
-public class modificarImagen extends HttpServlet {
+
+
+@WebServlet(name = "eliminarImagen", urlPatterns = {"/eliminarImagen"})
+public class eliminarImagen extends HttpServlet {
+
+    private static final String IMAGE_DIR = "/var/webapp/uploads";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,18 +36,25 @@ public class modificarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
-        
-        // Implem HttpSession
-        String creator = (String) request.getSession().getAttribute("usuario");
-        if(creator == null)
-            response.sendRedirect("Login.jsp");
-        
-        String fileName = (String) request.getSession().getAttribute("filename");
+
+        int id = Integer.parseInt(request.getParameter("id"));
         Database db = new Database();
-        boolean modifica = db.modificaImagen(creator,fileName);
+        boolean b = db.eliminaImagen(id);
+        if(!b) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+        
+      
+        String fileName= IMAGE_DIR + File.separator + request.getParameter("filename");
+
+        File file = new File(fileName);
+        
+        if(file.delete())
+        {
+        }
+        else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+       
         db.Shutdown();
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

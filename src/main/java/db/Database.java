@@ -211,4 +211,20 @@ public List<Image> buscarImagenes(String title, String description, String keywo
     
     return resultados;
     }
+
+    public boolean eliminaImagen(int id)
+    {
+        String sql = "DELETE FROM IMAGE WHERE id = ?";  // La consulta con parámetro
+        try ( PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int filasAfectadas = stmt.executeUpdate();
+
+            return filasAfectadas > 0;  // Si se borró una fila, devuelve true
+            
+        } catch (SQLException e) {
+            return false;  // Si ocurre un error, devuelve false
+        }
+    }
 }

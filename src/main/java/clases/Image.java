@@ -10,7 +10,7 @@ package clases;
  */
 public class Image {
     
-        //private final int ID; 
+        private int ID; 
         private String title;
         private String description;
         private String keywords;
@@ -34,7 +34,7 @@ public class Image {
             this.storageDate = storageDate;
         }
         
-        // public int getID(){ return ID;}   
+        public int getID(){ return ID;}   
         public String getTitle(){ return title;}   
         public String getDescription(){ return description;}   
         public String getKeywords(){ return keywords;}    
@@ -45,6 +45,7 @@ public class Image {
         public String getStorageDate(){ return storageDate;}
 
         
+        public void setID(int ID){this.ID = ID;}
         public void setTitle(String title){ this.title=title;}   
         public void setDescription(String description){this.description=description;}   
         public void setKeywords(String keywords){ this.keywords=keywords;}    

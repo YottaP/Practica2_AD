@@ -6,6 +6,7 @@ package servlets;
 
 import clases.Image;
 import db.Database;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -19,6 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  *
@@ -58,7 +60,12 @@ public class registrarImagen extends HttpServlet {
         String storageDate = LocalDate.now().toString(); // fecha de regitro al sistema
         
         Part part=request.getPart("imagen");
-        String NombreArchivo = extractFileName(part);
+        String Random = UUID.randomUUID().toString();
+        String Archivo = extractFileName(part);
+        String extension = Archivo.substring(Archivo.lastIndexOf("."));
+        String NombreArchivo = Random + extension;
+        
+        // Nombre archivo
         String fileName= IMAGE_DIR + File.separator + NombreArchivo;
         
         Image i = new Image(title, description, keywords, author,
@@ -84,13 +91,12 @@ public class registrarImagen extends HttpServlet {
         db.Shutdown(); // Finalizar conexión
         if(!done) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
             
-        // Hacemos la query ya que hemos podido enviar la foto
+        // Se ha conseguido registrar la imagen, 
+        request.setAttribute("mensaje", "La imagen ha sido registrada correctamente");
+        RequestDispatcher rd = request.getRequestDispatcher("/resultado.jsp");
+        rd.forward(request,response);
         
-        response.getWriter().println("<h1>Que quieres hacer?</h1><br>");
         
-        response.getWriter().println("<p><a href = \"http://localhost:8080/Practica2AD/menu.jsp\">Volver al Menú</a></p>\n" +"");
-      
-        response.getWriter().println("<p><a href = \"http://localhost:8080/Practica2AD/registrarImagen.jsp\">Volver a Registrar Imagen</a></p>\n" +"");
     }
     
     // file name of the upload file is included in content-disposition header like this:
