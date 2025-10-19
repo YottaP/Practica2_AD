@@ -6,6 +6,7 @@ package servlets;
 
 import clases.Image;
 import db.Database;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -52,7 +53,10 @@ public class eliminarImagen extends HttpServlet {
         File file = new File(fileName);
         
         if(file.delete())
-        {
+        {     
+            request.setAttribute("mensaje", "La imagen ha sido eliminada correctamente");
+            RequestDispatcher rd = request.getRequestDispatcher("/modificar_borrar.jsp");
+            rd.forward(request,response);         
         }
         else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
        

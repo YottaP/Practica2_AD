@@ -6,6 +6,7 @@ package servlets;
 
 import clases.Image;
 import db.Database;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -63,6 +64,12 @@ public class modificarImagen extends HttpServlet {
         db.Shutdown();
         
         if(!modifica) response.sendRedirect("error.jsp");
+        else
+        {
+            request.setAttribute("mensaje", "La imagen ha sido modificada correctamente");
+            RequestDispatcher rd = request.getRequestDispatcher("/modificar_borrar.jsp");
+            rd.forward(request,response);       
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
