@@ -111,17 +111,29 @@ public final class Database {
     
     public boolean modificaImagen(Image imagen)
     {
-    String sql = "UPDATE imagen" +
-            "SET " +
-                "title = ?," +
-                "description = ?," +
-                "keywords = ?," +
-                "author = ?," + 
-                "creator = ?," +
-                "capture_date = ?," +
-                "storage_date = ?," +
-                "filename = ?" +
+    String sql = "UPDATE IMAGE SET" +
+                " title = ?," +
+                " description = ?," +
+                " keywords = ?," +
+                " author = ?," + 
+                " creator = ?," +
+                " capture_date = ?," +
+                " storage_date = ?," +
+                " filename = ?" +
             " WHERE id = ?";
+        System.out.println(sql + '\n');
+        System.out.println(imagen.getTitle() + '\n');
+        System.out.println(imagen.getDescription() + '\n');
+        System.out.println(imagen.getKeywords() + '\n');
+        System.out.println(imagen.getAuthor() + '\n');
+        System.out.println(imagen.getCreator() + '\n');
+        System.out.println(imagen.getCaptureDate() + '\n');
+        System.out.println(imagen.getStorageDate() + '\n'); 
+        System.out.println(imagen.getFilename() + '\n');
+        System.out.println(imagen.getID() + '\n');
+
+
+
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -135,6 +147,7 @@ public final class Database {
             ps.setString(7, imagen.getStorageDate());
             ps.setString(8, imagen.getFilename());
             ps.setInt(9, imagen.getID());
+
 
             int rows = ps.executeUpdate();
             return rows > 0; // true si se actualizó al menos una fila

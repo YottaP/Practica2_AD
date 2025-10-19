@@ -39,23 +39,26 @@ public class modificarImagen extends HttpServlet {
         if(creator == null)
             response.sendRedirect("Login.jsp");
         
-        int id = 0;
-        //int id = Integer.parseInt(request.getParameter("id"));
+        Database db = new Database();
+        int id = Integer.parseInt(request.getParameter("id"));
+        Image i = db.retornaImagen(id);
+     
         String title = request.getParameter("title");
+        if(title == null || title.trim().isEmpty() ) title = i.getTitle();
         String description = request.getParameter("description");
+        if(description == null || description.trim().isEmpty()) description = i.getDescription();
         String keywords = request.getParameter("keywords");
+        if(keywords == null || keywords.trim().isEmpty()) keywords = i.getKeywords();
         String author = request.getParameter("author");
+        if(author == null || author.trim().isEmpty()) author = i.getAuthor();
         String captureDate = request.getParameter("capture_date");
-        //String filename = request.getParameter("filename");
-        String filename= "Hola";
-        // String storageDate = request.getParameter("storageDate");
-        String storageDate = "adios";
-        
-        // 2️⃣ Crear objeto Imagen con todos los datos
-        Image imagen = new Image(title, description, keywords, author, creator, captureDate, filename, storageDate);
+        if(captureDate == null || captureDate.trim().isEmpty()) captureDate = i.getCaptureDate();
+        String filename= i.getFilename();
+        String storageDate = i.getStorageDate();
+       
+        Image imagen = new Image(title, description, keywords, author, creator, captureDate, storageDate, filename);
         imagen.setID(id);
         
-        Database db = new Database();
         boolean modifica = db.modificaImagen(imagen);
         db.Shutdown();
         

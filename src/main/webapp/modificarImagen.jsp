@@ -23,26 +23,22 @@
         
         <form  action = "modificarImagen" method = "POST">
             
-            <input type="hidden" name="id" value="${imagen.ID}">
+            <input type="hidden" name="id" value="${param.id}">
             
             <label for="title">Título:</label><br>
-            <input type="text" id="title" name="title" value="${imagen.title}" ><br><br>
+            <input type="text" id="title" name="title" ><br><br>
 
             <label for="description">Descripción:</label><br>
-            <textarea id="description" name="description"value="${imagen.description}" ></textarea><br><br>
+            <textarea id="description" name="description" ></textarea><br><br>
 
             <label for="keywords">Palabras clave:</label><br>
-            <input type="text" id="keywords" name="keywords" value="${imagen.keywords}" ><br><br>
+            <input type="text" id="keywords" name="keywords" ><br><br>
 
             <label for="author">Autor:</label><br>
-            <input type="text" id="author" name="author" value="${imagen.author}"><br><br>
+            <input type="text" id="author" name="author" ><br><br>
             
             <label for="capture_date">Fecha de captura (AAAA-MM-DD):</label><br>
-            <input type="date" id="capture_date" name="capture_date" value="${imagen.captureDate}"><br><br>
-
-            <input type="hidden" name="filename" value="${imagen.filename}">
-            
-            <input type="hidden" name="storageDate" value="${imagen.storageDate}">
+            <input type="date" id="capture_date" name="capture_date"><br><br>            
             
             <input type="submit" value="Actualizar">
             

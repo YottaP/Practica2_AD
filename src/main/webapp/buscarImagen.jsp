@@ -48,7 +48,7 @@
             
             <label for="creator">Creador:</label><br>
             <input type="text" id="creator" name="creator"><br><br>
-            
+           
             <h4>Búsqueda por fechas:</h4>
             
             <label for="captureDateFrom">Fecha de captura desde:</label><br>
