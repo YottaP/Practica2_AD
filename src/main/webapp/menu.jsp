@@ -241,11 +241,13 @@
                 <p>Encuentra imágenes por diferentes criterios</p>
             </a>
             
-            <a href="listarImagenes.jsp" class="menu-item">
-                <span class="menu-icon">📋</span>
-                <h3>Listar Imágenes</h3>
-                <p>Visualiza todas las imágenes disponibles</p>
-            </a>
+            <form action="BuscarImagen" method="POST" style="display: contents;">
+                <button type="submit" class="menu-item menu-item-button">
+                    <span class="menu-icon">📋</span>
+                    <h3>Listar Imágenes</h3>
+                    <p>Visualiza todas las imágenes disponibles</p>
+                </button>
+            </form>
         </div>
         
         <div class="logout-section">

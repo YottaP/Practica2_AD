@@ -32,13 +32,7 @@ public class Logout extends HttpServlet {
         // Obtener la sesión actual (false = no crear una nueva si no existe)
         HttpSession session = request.getSession(false);
         
-        if(session != null) {
-            String usuario = (String) session.getAttribute("usuario");
-            System.out.println("DEBUG - Cerrando sesión del usuario: " + usuario);
-            
-            // Invalidar la sesión completamente
-            session.invalidate();
-        }
+        if(session != null) session.invalidate();
         
         // Redirigir al login
         response.sendRedirect("http://localhost:8080/Practica2AD/Login.jsp");

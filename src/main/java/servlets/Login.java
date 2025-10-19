@@ -56,9 +56,7 @@ public class Login extends HttpServlet {
                 // Crear nueva sesión solo si el login es exitoso
                 HttpSession newSession = request.getSession(true);
                 newSession.setAttribute("usuario", user);
-                newSession.setMaxInactiveInterval(240);
-                
-                System.out.println("DEBUG - Login exitoso. Usuario guardado en sesión: " + user);
+                newSession.setMaxInactiveInterval(300);
                 
                 response.sendRedirect("http://localhost:8080/Practica2AD/menu.jsp");
             }
@@ -69,7 +67,6 @@ public class Login extends HttpServlet {
                     oldSession.invalidate();
                 }
                 
-                System.out.println("DEBUG - Login fallido para usuario: " + user);
                 response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
             }
         }
@@ -79,9 +76,7 @@ public class Login extends HttpServlet {
         } finally {
                 db.Shutdown(); 
             }
-        }
-        
-       
+        }  
     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

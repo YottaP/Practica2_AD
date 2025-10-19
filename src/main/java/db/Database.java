@@ -121,7 +121,7 @@ public final class Database {
                 " storage_date = ?," +
                 " filename = ?" +
             " WHERE id = ?";
-        System.out.println(sql + '\n');
+        /*System.out.println(sql + '\n');
         System.out.println(imagen.getTitle() + '\n');
         System.out.println(imagen.getDescription() + '\n');
         System.out.println(imagen.getKeywords() + '\n');
@@ -130,10 +130,7 @@ public final class Database {
         System.out.println(imagen.getCaptureDate() + '\n');
         System.out.println(imagen.getStorageDate() + '\n'); 
         System.out.println(imagen.getFilename() + '\n');
-        System.out.println(imagen.getID() + '\n');
-
-
-
+        System.out.println(imagen.getID() + '\n');*/
 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -340,7 +337,7 @@ public List<Image> buscarImagenes(String id, String title, String description, S
         
  
     } catch(SQLException e) {
-        System.err.println("ERROR EN BÚSQUEDA: " + e.getMessage());
+        //System.err.println("ERROR EN BÚSQUEDA: " + e.getMessage());
     } finally {
         try {
             if(rs != null) rs.close();
