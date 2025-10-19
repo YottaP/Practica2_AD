@@ -21,10 +21,8 @@
         
         <ul>
             <li><a href="buscarImagen.jsp">Buscar Imágenes</a></li>
-            <li><a href="listar.jsp">Listar Todas las Imágenes</a></li>
             <li><a href="registrarImagen.jsp">Registrar Nueva Imagen</a></li>
             <li><a href="modificarImagen.jsp">Modificar Imagen</a></li>
-            <li><a href="eliminarImagen.jsp">Eliminar Imagen</a></li>
         </ul>
         
         <hr>

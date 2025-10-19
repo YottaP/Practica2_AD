@@ -23,7 +23,7 @@ public class Image {
         public Image(String title, String description, String keywords, String author,
                 String creator, String captureDate, String storageDate, String filename)
         {
-            // this.ID = ID;
+            //this.ID = ID;
             this.title = title;
             this.description = description;
             this.keywords = keywords;

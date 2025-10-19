@@ -31,6 +31,9 @@
         <form action="BuscarImagen" method="POST">
             <h3>Criterios de búsqueda (dejar en blanco para ver todas las imágenes)</h3>
             
+            <label for="id">ID Imagen:</label><br>
+            <input type="text" id="id" name="id"><br><br>
+            
             <label for="title">Título:</label><br>
             <input type="text" id="title" name="title"><br><br>
             

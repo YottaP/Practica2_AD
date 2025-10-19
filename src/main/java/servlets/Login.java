@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import db.Database; // Clase con las operaciones de las bases de datos
 
@@ -44,18 +45,27 @@ public class Login extends HttpServlet {
 
             boolean valido = db.consultaUsuario(user, password);
             
+            // Invalidar sesión anterior siempre (tanto si el login es exitoso como si falla)
+            HttpSession oldSession = request.getSession(false);
+            if(oldSession != null) {
+                oldSession.invalidate();
+            }
+            
             if(valido)
             {
-                // Creació sessió
-                String usuario = (String) request.getSession().getAttribute("usuario");
-                if(usuario == null)
-                {
-                    request.getSession().setAttribute("usuario", user);
-                    request.getSession().setMaxInactiveInterval(240);
-                }
+                // Crear nueva sesión solo si el login es exitoso
+                HttpSession newSession = request.getSession(true);
+                newSession.setAttribute("usuario", user);
+                newSession.setMaxInactiveInterval(240);
+              
+                
                 response.sendRedirect("http://localhost:8080/Practica2AD/menu.jsp");
             }
-            else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+            else {
+                // Login fallido - no crear sesión nueva
+                
+                response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+            }
         }
         catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
@@ -64,9 +74,6 @@ public class Login extends HttpServlet {
                 db.Shutdown(); 
             }
         }
-        
-       
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

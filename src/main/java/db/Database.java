@@ -146,16 +146,22 @@ public final class Database {
       
 
 /**
- * Busca imágenes en la base de datos según los criterios especificados.Si todos los parámetros son null o vacíos, devuelve todas las imágenes.
+ * Busca imágenes en la base de datos según los criterios especificados.
+ * Si todos los parámetros son null o vacíos, devuelve todas las imágenes.
  * 
+ * @param id ID de la imagen (búsqueda exacta)
  * @param title Título de la imagen (búsqueda parcial)
  * @param description Descripción de la imagen (búsqueda parcial)
  * @param keywords Palabras clave (búsqueda parcial)
  * @param author Autor de la imagen (búsqueda parcial)
  * @param creator Creador/usuario que subió la imagen (búsqueda parcial)
+ * @param captureDateFrom Fecha de captura desde (formato: yyyy-MM-dd)
+ * @param captureDateTo Fecha de captura hasta (formato: yyyy-MM-dd)
+ * @param storageDateFrom Fecha de almacenamiento desde (formato: yyyy-MM-dd)
+ * @param storageDateTo Fecha de almacenamiento hasta (formato: yyyy-MM-dd)
  * @return Lista de objetos Image que coinciden con los criterios
  */
-public List<Image> buscarImagenes(String title, String description, String keywords, 
+public List<Image> buscarImagenes(String id, String title, String description, String keywords, 
                                    String author, String creator, String captureDateFrom, 
                                    String captureDateTo, String storageDateFrom, String storageDateTo) {
     List<Image> resultados = new ArrayList<>();
@@ -163,9 +169,14 @@ public List<Image> buscarImagenes(String title, String description, String keywo
     ResultSet rs = null;
     
     try {
-        
         // Construir la consulta SQL dinámicamente según los parámetros
         StringBuilder sql = new StringBuilder("SELECT * FROM IMAGE WHERE 1=1");
+        
+        // Añadir condición para ID (búsqueda exacta)
+        if(id != null && !id.trim().isEmpty()) {
+            sql.append(" AND ID = ?");
+        }
+        
         // Añadir condiciones solo si los parámetros no son nulos ni vacíos
         if(title != null && !title.trim().isEmpty()) {
             sql.append(" AND UPPER(TITLE) LIKE UPPER(?)");
@@ -183,13 +194,41 @@ public List<Image> buscarImagenes(String title, String description, String keywo
             sql.append(" AND UPPER(CREATOR) LIKE UPPER(?)");
         }
         
-        // Ordenar los resultados por fecha de almacenamiento (más recientes primero)
-        //sql.append(" ORDER BY FECHA_ALMACENAMIENTO DESC");
+        // Añadir condiciones para rangos de fechas de captura
+        if(captureDateFrom != null && !captureDateFrom.trim().isEmpty()) {
+            sql.append(" AND CAPTURE_DATE >= ?");
+        }
+        if(captureDateTo != null && !captureDateTo.trim().isEmpty()) {
+            sql.append(" AND CAPTURE_DATE <= ?");
+        }
+        
+        // Añadir condiciones para rangos de fechas de almacenamiento
+        if(storageDateFrom != null && !storageDateFrom.trim().isEmpty()) {
+            sql.append(" AND STORAGE_DATE >= ?");
+        }
+        if(storageDateTo != null && !storageDateTo.trim().isEmpty()) {
+            sql.append(" AND STORAGE_DATE <= ?");
+        }
+        
+        // Ordenar los resultados por ID
+        sql.append(" ORDER BY ID ASC");
         
         ps = connection.prepareStatement(sql.toString());
         
         // Asignar los parámetros a la consulta preparada
         int paramIndex = 1;
+        
+        // ID (búsqueda exacta)
+        if(id != null && !id.trim().isEmpty()) {
+            try {
+                ps.setInt(paramIndex++, Integer.parseInt(id.trim()));
+            } catch(NumberFormatException e) {
+                System.err.println("ID no válido: " + id);
+                return resultados; // Retornar lista vacía si el ID no es válido
+            }
+        }
+        
+        // Campos de texto (búsqueda parcial con LIKE)
         if(title != null && !title.trim().isEmpty()) {
             ps.setString(paramIndex++, "%" + title.trim() + "%");
         }
@@ -204,6 +243,22 @@ public List<Image> buscarImagenes(String title, String description, String keywo
         }
         if(creator != null && !creator.trim().isEmpty()) {
             ps.setString(paramIndex++, "%" + creator.trim() + "%");
+        }
+        
+        // Fechas de captura
+        if(captureDateFrom != null && !captureDateFrom.trim().isEmpty()) {
+            ps.setString(paramIndex++, captureDateFrom.trim());
+        }
+        if(captureDateTo != null && !captureDateTo.trim().isEmpty()) {
+            ps.setString(paramIndex++, captureDateTo.trim());
+        }
+        
+        // Fechas de almacenamiento
+        if(storageDateFrom != null && !storageDateFrom.trim().isEmpty()) {
+            ps.setString(paramIndex++, storageDateFrom.trim());
+        }
+        if(storageDateTo != null && !storageDateTo.trim().isEmpty()) {
+            ps.setString(paramIndex++, storageDateTo.trim());
         }
         
         // Ejecutar la consulta
@@ -221,6 +276,7 @@ public List<Image> buscarImagenes(String title, String description, String keywo
                 rs.getString("STORAGE_DATE"),
                 rs.getString("FILENAME")
             );
+            img.setID(rs.getInt("ID")); // Asignar el ID
             resultados.add(img);
         }
         
@@ -239,7 +295,7 @@ public List<Image> buscarImagenes(String title, String description, String keywo
     }
     
     return resultados;
-    }
+}
 
     public boolean eliminaImagen(int id)
     {
