@@ -312,4 +312,34 @@ public List<Image> buscarImagenes(String id, String title, String description, S
             return false;  // Si ocurre un error, devuelve false
         }
     }
+    
+public Image retornaImagen(int id) {
+    String query = "SELECT * FROM IMAGE WHERE id = ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setInt(1, id);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                Image img = new Image(
+                    rs.getString("TITLE"),
+                    rs.getString("DESCRIPTION"),
+                    rs.getString("KEYWORDS"),
+                    rs.getString("AUTHOR"),
+                    rs.getString("CREATOR"),
+                    rs.getString("CAPTURE_DATE"),
+                    rs.getString("STORAGE_DATE"),
+                    rs.getString("FILENAME")
+                );
+                return img;
+            } else {
+                System.out.println("⚠️ No existe ninguna imagen con id=" + id);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return null;
+    }
+
 }

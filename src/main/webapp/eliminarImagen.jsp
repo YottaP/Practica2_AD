@@ -25,14 +25,11 @@
         
             <h2>¿Seguro que quieres borrar esta imagen?</h2>
 
-    <p><b>ID:</b> ${imagen.id}</p>
-    <p><b>Título:</b> ${imagen.titulo}</p>
-    <p><b>Descripción:</b> ${imagen.descripcion}</p>
+    <p><b>ID:</b> ${param.id}</p>
 
     <!-- Formulario que enviará al servlet BorrarImagen -->
-    <form action="elimiarImagen" method="post">
-        <input type="hidden" name="id" value="${imagen.id}">
-        <input type="hidden" name="filename" value="${imagen.filename}">
+    <form action="eliminarImagen" method="post">
+        <input type="hidden" name="id" value="${param.id}">
         <input type="submit" value="Sí, borrar">
     </form>
 
