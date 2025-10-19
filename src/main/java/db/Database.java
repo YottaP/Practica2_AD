@@ -182,6 +182,21 @@ public List<Image> buscarImagenes(String id, String title, String description, S
     ResultSet rs = null;
     
     try {
+       
+        // Convertir fechas de yyyy-MM-dd a yyyy/MM/dd para comparar con la BD
+        if(captureDateFrom != null && !captureDateFrom.trim().isEmpty()) {
+            captureDateFrom = captureDateFrom.replace("-", "/");
+        }
+        if(captureDateTo != null && !captureDateTo.trim().isEmpty()) {
+            captureDateTo = captureDateTo.replace("-", "/");
+        }
+        if(storageDateFrom != null && !storageDateFrom.trim().isEmpty()) {
+            storageDateFrom = storageDateFrom.replace("-", "/");
+        }
+        if(storageDateTo != null && !storageDateTo.trim().isEmpty()) {
+            storageDateTo = storageDateTo.replace("-", "/");
+        }
+        
         // Construir la consulta SQL dinámicamente según los parámetros
         StringBuilder sql = new StringBuilder("SELECT * FROM IMAGE WHERE 1=1");
         
@@ -231,54 +246,83 @@ public List<Image> buscarImagenes(String id, String title, String description, S
         // Asignar los parámetros a la consulta preparada
         int paramIndex = 1;
         
+        
         // ID (búsqueda exacta)
         if(id != null && !id.trim().isEmpty()) {
             try {
-                ps.setInt(paramIndex++, Integer.parseInt(id.trim()));
+                int idValue = Integer.parseInt(id.trim());
+                ps.setInt(paramIndex, idValue);
+                //System.out.println("  Param[" + paramIndex + "] (ID): " + idValue);
+                paramIndex++;
             } catch(NumberFormatException e) {
                 System.err.println("ID no válido: " + id);
-                return resultados; // Retornar lista vacía si el ID no es válido
+                return resultados;
             }
         }
         
         // Campos de texto (búsqueda parcial con LIKE)
         if(title != null && !title.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + title.trim() + "%");
+            String value = "%" + title.trim() + "%";
+            ps.setString(paramIndex, value);
+            //System.out.println("  Param[" + paramIndex + "] (TITLE): " + value);
+            paramIndex++;
         }
         if(description != null && !description.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + description.trim() + "%");
+            String value = "%" + description.trim() + "%";
+            ps.setString(paramIndex, value);
+            //System.out.println("  Param[" + paramIndex + "] (DESCRIPTION): " + value);
+            paramIndex++;
         }
         if(keywords != null && !keywords.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + keywords.trim() + "%");
+            String value = "%" + keywords.trim() + "%";
+            ps.setString(paramIndex, value);
+            //System.out.println("  Param[" + paramIndex + "] (KEYWORDS): " + value);
+            paramIndex++;
         }
         if(author != null && !author.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + author.trim() + "%");
+            String value = "%" + author.trim() + "%";
+            ps.setString(paramIndex, value);
+            //System.out.println("  Param[" + paramIndex + "] (AUTHOR): " + value);
+            paramIndex++;
         }
         if(creator != null && !creator.trim().isEmpty()) {
-            ps.setString(paramIndex++, "%" + creator.trim() + "%");
+            String value = "%" + creator.trim() + "%";
+            ps.setString(paramIndex, value);
+            //System.out.println("  Param[" + paramIndex + "] (CREATOR): " + value);
+            paramIndex++;
         }
         
         // Fechas de captura
         if(captureDateFrom != null && !captureDateFrom.trim().isEmpty()) {
-            ps.setString(paramIndex++, captureDateFrom.trim());
+            ps.setString(paramIndex, captureDateFrom.trim());
+            //System.out.println("  Param[" + paramIndex + "] (CAPTURE_DATE >=): [" + captureDateFrom.trim() + "]");
+            paramIndex++;
         }
         if(captureDateTo != null && !captureDateTo.trim().isEmpty()) {
-            ps.setString(paramIndex++, captureDateTo.trim());
+            ps.setString(paramIndex, captureDateTo.trim());
+            //System.out.println("  Param[" + paramIndex + "] (CAPTURE_DATE <=): [" + captureDateTo.trim() + "]");
+            paramIndex++;
         }
         
         // Fechas de almacenamiento
         if(storageDateFrom != null && !storageDateFrom.trim().isEmpty()) {
-            ps.setString(paramIndex++, storageDateFrom.trim());
+            ps.setString(paramIndex, storageDateFrom.trim());
+            //System.out.println("  Param[" + paramIndex + "] (STORAGE_DATE >=): [" + storageDateFrom.trim() + "]");
+            paramIndex++;
         }
         if(storageDateTo != null && !storageDateTo.trim().isEmpty()) {
-            ps.setString(paramIndex++, storageDateTo.trim());
+            ps.setString(paramIndex, storageDateTo.trim());
+            //System.out.println("  Param[" + paramIndex + "] (STORAGE_DATE <=): [" + storageDateTo.trim() + "]");
+            paramIndex++;
         }
         
         // Ejecutar la consulta
         rs = ps.executeQuery();
         
         // Procesar los resultados
+        int count = 0;
         while(rs.next()) {
+            count++;
             Image img = new Image(
                 rs.getString("TITLE"),
                 rs.getString("DESCRIPTION"),
@@ -289,16 +333,15 @@ public List<Image> buscarImagenes(String id, String title, String description, S
                 rs.getString("STORAGE_DATE"),
                 rs.getString("FILENAME")
             );
-            img.setID(rs.getInt("ID")); // Asignar el ID
+            img.setID(rs.getInt("ID"));
+            
             resultados.add(img);
         }
         
-        System.out.println("Búsqueda completada: " + resultados.size() + " imagen(es) encontrada(s)");
-        
+ 
     } catch(SQLException e) {
-        System.err.println("Error en búsqueda de imágenes: " + e.getMessage());
+        System.err.println("ERROR EN BÚSQUEDA: " + e.getMessage());
     } finally {
-        // Cerrar recursos en orden inverso
         try {
             if(rs != null) rs.close();
             if(ps != null) ps.close();

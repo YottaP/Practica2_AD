@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -57,7 +58,15 @@ public class registrarImagen extends HttpServlet {
         String keywords = request.getParameter("keywords");
         String author = request.getParameter("author");
         String captureDate = request.getParameter("capture_date");
-        String storageDate = LocalDate.now().toString(); // fecha de regitro al sistema
+        
+        // Convertir captureDate de yyyy-MM-dd a yyyy/MM/dd
+        if(captureDate != null && !captureDate.isEmpty()) {
+            captureDate = captureDate.replace("-", "/");
+        }
+        
+        // Fecha de registro al sistema en formato yyyy/MM/dd
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String storageDate = LocalDate.now().format(formatter);
         
         Part part=request.getPart("imagen");
         String Random = UUID.randomUUID().toString();

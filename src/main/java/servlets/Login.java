@@ -45,25 +45,31 @@ public class Login extends HttpServlet {
 
             boolean valido = db.consultaUsuario(user, password);
             
-            // Invalidar sesión anterior siempre (tanto si el login es exitoso como si falla)
-            HttpSession oldSession = request.getSession(false);
-            if(oldSession != null) {
-                oldSession.invalidate();
-            }
-            
             if(valido)
             {
+                // Invalidar sesión anterior si existe antes de crear una nueva
+                HttpSession oldSession = request.getSession(false);
+                if(oldSession != null) {
+                    oldSession.invalidate();
+                }
+                
                 // Crear nueva sesión solo si el login es exitoso
                 HttpSession newSession = request.getSession(true);
                 newSession.setAttribute("usuario", user);
                 newSession.setMaxInactiveInterval(240);
-              
+                
+                System.out.println("DEBUG - Login exitoso. Usuario guardado en sesión: " + user);
                 
                 response.sendRedirect("http://localhost:8080/Practica2AD/menu.jsp");
             }
             else {
-                // Login fallido - no crear sesión nueva
+                // Login fallido - invalidar cualquier sesión existente
+                HttpSession oldSession = request.getSession(false);
+                if(oldSession != null) {
+                    oldSession.invalidate();
+                }
                 
+                System.out.println("DEBUG - Login fallido para usuario: " + user);
                 response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
             }
         }
@@ -74,6 +80,9 @@ public class Login extends HttpServlet {
                 db.Shutdown(); 
             }
         }
+        
+       
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
