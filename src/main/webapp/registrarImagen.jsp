@@ -36,7 +36,7 @@
             <label for="capture_date">Fecha de captura (AAAA-MM-DD):</label><br>
             <input type="date" id="capture_date" name="capture_date" required><br><br>
             
-            <input type="file" id ="imagen" name="imagen"><br>
+            <input type="file" id ="imagen" name="imagen" required><br>
             <input type="submit" value="Submit">
         </form>
     </body>
