@@ -71,10 +71,10 @@ public class buscarImagen extends HttpServlet {
         request.getRequestDispatcher("resultadosBusqueda.jsp").forward(request, response);
         
     } catch (ClassNotFoundException e) {
-        System.err.println("Error al cargar el driver: " + e.getMessage());
+        //System.err.println("Error al cargar el driver: " + e.getMessage());
         response.sendRedirect("error.jsp");
     } catch (ServletException | IOException e) {
-        System.err.println("Error en búsqueda: " + e.getMessage());
+        //System.err.println("Error en búsqueda: " + e.getMessage());
         response.sendRedirect("error.jsp");
     } finally {
         db.Shutdown();

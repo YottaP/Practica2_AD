@@ -39,7 +39,7 @@ public final class Database {
             c = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
         }
         catch (ClassNotFoundException | SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
         
         return c;
@@ -54,7 +54,7 @@ public final class Database {
             }
         } catch (SQLException e) {
             // connection close failed.
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
     
@@ -76,7 +76,7 @@ public final class Database {
         } 
         catch(Exception e)
         {
-            System.err.println(e.getMessage()); 
+            //System.err.println(e.getMessage()); 
         }
         return b;
     }
@@ -252,7 +252,7 @@ public List<Image> buscarImagenes(String id, String title, String description, S
                 //System.out.println("  Param[" + paramIndex + "] (ID): " + idValue);
                 paramIndex++;
             } catch(NumberFormatException e) {
-                System.err.println("ID no válido: " + id);
+                //System.err.println("ID no válido: " + id);
                 return resultados;
             }
         }
@@ -343,7 +343,7 @@ public List<Image> buscarImagenes(String id, String title, String description, S
             if(rs != null) rs.close();
             if(ps != null) ps.close();
         } catch(SQLException e) {
-            System.err.println("Error al cerrar recursos: " + e.getMessage());
+            //System.err.println("Error al cerrar recursos: " + e.getMessage());
         }
     }
     

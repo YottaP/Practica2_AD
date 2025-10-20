@@ -49,7 +49,7 @@ public class eliminarImagen extends HttpServlet {
         if(!b) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
         
         String fileName= IMAGE_DIR + File.separator + i.getFilename();
-        System.err.print(fileName);
+        //System.err.print(fileName);
         File file = new File(fileName);
         
         if(file.delete())
