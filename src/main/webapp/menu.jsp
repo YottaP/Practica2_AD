@@ -163,6 +163,16 @@
             font-size: 0.95em;
             line-height: 1.5;
         }
+
+        .menu-item-button {
+            font-family: inherit;
+            font-size: inherit;
+            width: 100%;
+        }
+
+        .menu-item-button h3 {
+            font-size: 1.3em;
+        }
         
         .logout-section {
             text-align: center;
