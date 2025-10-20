@@ -237,7 +237,7 @@
                 
                 <div class="form-group">
                     <label for="title">Título:</label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" id="title" name="title">
                 </div>
                 
                 <div class="form-group">
