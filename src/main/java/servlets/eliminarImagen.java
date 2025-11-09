@@ -41,10 +41,20 @@ public class eliminarImagen extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        String creator = (String) request.getSession().getAttribute("usuario");
+        if(creator == null)
+            response.sendRedirect("Login.jsp");
+        
         int id = Integer.parseInt(request.getParameter("id"));
         Database db = new Database();
         Image i = db.retornaImagen(id); //retornar antes sino peta pq no existe
 
+        if(i == null || !i.getCreator().equals(creator)) {
+            db.Shutdown();
+            response.sendRedirect("error.jsp");
+            return;
+        }
+        
         boolean b = db.eliminaImagen(id);
         if(!b) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
         

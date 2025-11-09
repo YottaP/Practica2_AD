@@ -4,6 +4,8 @@
     Author     : alumne
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="clases.Image"%>
+<%@page import="db.Database"%>
 <%
     // Verificar si hay sesión activa
     String usuario = (String) session.getAttribute("usuario");
@@ -11,6 +13,18 @@
         response.sendRedirect("Login.jsp");
         return;
     }
+    
+    int id = Integer.parseInt(request.getParameter("id"));
+    Database db = new Database();
+    Image imagen = db.retornaImagen(id);
+    
+    if(imagen == null || !imagen.getCreator().equals(usuario)) {
+        db.Shutdown();
+        response.sendRedirect("error.jsp");
+        return;
+    }
+    
+    db.Shutdown();
 %>
 <!DOCTYPE html>
 <html>
@@ -237,27 +251,31 @@
                 
                 <div class="form-group">
                     <label for="title">Título:</label>
-                    <input type="text" id="title" name="title">
+                    <input type="text" id="title" name="title" 
+                           placeholder="<%= imagen.getTitle() %>">
                 </div>
                 
                 <div class="form-group">
                     <label for="description">Descripción:</label>
-                    <textarea id="description" name="description"></textarea>
+                    <textarea id="description" name="description" placeholder="<%= imagen.getDescription() %>"></textarea>
                 </div>
                 
                 <div class="form-group">
                     <label for="keywords">Palabras clave:</label>
-                    <input type="text" id="keywords" name="keywords" placeholder="Ej: naturaleza, montaña, paisaje">
+                    <input type="text" id="keywords" name="keywords" 
+                           placeholder="<%= imagen.getKeywords() %>">
                 </div>
                 
                 <div class="form-group">
                     <label for="author">Autor:</label>
-                    <input type="text" id="author" name="author">
+                    <input type="text" id="author" name="author"
+                           placeholder="<%= imagen.getAuthor() %>">
                 </div>
                 
                 <div class="form-group">
                     <label for="capture_date">Fecha de captura:</label>
-                    <input type="date" id="capture_date" name="capture_date">
+                    <input type="date" id="capture_date" name="capture_date"
+                           value="<%= imagen.getCaptureDate().replace("/", "-") %>">
                 </div>
                 
                 <div class="button-group">

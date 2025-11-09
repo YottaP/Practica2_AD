@@ -43,6 +43,12 @@ public class modificarImagen extends HttpServlet {
         Database db = new Database();
         int id = Integer.parseInt(request.getParameter("id"));
         Image i = db.retornaImagen(id);
+        
+        if(i == null || !i.getCreator().equals(creator)) {
+            db.Shutdown();
+            response.sendRedirect("error.jsp");
+            return;
+    }
      
         String title = request.getParameter("title");
         if(title == null || title.trim().isEmpty() ) title = i.getTitle();
