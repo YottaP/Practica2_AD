@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
                 newSession.setAttribute("usuario", user);
                 newSession.setMaxInactiveInterval(300);
                 
-                response.sendRedirect("http://localhost:8080/Practica2AD/menu.jsp");
+                response.sendRedirect("menu.jsp");
             }
             else {
                 // Login fallido - invalidar cualquier sesión existente
@@ -67,12 +67,12 @@ public class Login extends HttpServlet {
                     oldSession.invalidate();
                 }
                 
-                response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+                response.sendRedirect("error.jsp");
             }
         }
         catch (IOException | ClassNotFoundException e) {
             //System.err.println(e.getMessage());
-            response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+            response.sendRedirect("error.jsp");
         } finally {
                 db.Shutdown(); 
             }

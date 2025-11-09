@@ -92,13 +92,13 @@ public class registrarImagen extends HttpServlet {
         catch(Exception e)
         {
             // Redirigir a error porque no podemos guardar la imagen
-            response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+            response.sendRedirect("error.jsp");
         }
         
         Database db = new Database();
         boolean done = db.insertaImagen(i);
         db.Shutdown(); // Finalizar conexión
-        if(!done) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+        if(!done) response.sendRedirect("error.jsp");
             
         // Se ha conseguido registrar la imagen, 
         request.setAttribute("mensaje", "La imagen ha sido registrada correctamente");

@@ -56,7 +56,7 @@ public class eliminarImagen extends HttpServlet {
         }
         
         boolean b = db.eliminaImagen(id);
-        if(!b) response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+        if(!b) response.sendRedirect("error.jsp");
         
         String fileName= IMAGE_DIR + File.separator + i.getFilename();
         //System.err.print(fileName);
@@ -68,7 +68,7 @@ public class eliminarImagen extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/modificar_borrar.jsp");
             rd.forward(request,response);         
         }
-        else response.sendRedirect("http://localhost:8080/Practica2AD/error.jsp");
+        else response.sendRedirect("error.jsp");
        
         db.Shutdown();
         

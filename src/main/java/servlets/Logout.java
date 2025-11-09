@@ -35,7 +35,7 @@ public class Logout extends HttpServlet {
         if(session != null) session.invalidate();
         
         // Redirigir al login
-        response.sendRedirect("http://localhost:8080/Practica2AD/Login.jsp");
+        response.sendRedirect("Login.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
